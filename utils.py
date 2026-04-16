@@ -107,7 +107,7 @@ def showAnim(img, x, y, pct=100, frame_dur=50):
 
 
 
-def displayEnergy(E, window=10, percent=1, reduction="mean"):
+def displayGradEnergy(E, window=10, percent=1, reduction="mean"):
     E = np.asarray(E)
 
     if E.ndim != 3 or E.shape[-1] != 2:
@@ -167,3 +167,38 @@ def displayEnergy(E, window=10, percent=1, reduction="mean"):
     fig.show()
 
     return energy
+
+
+def plot_energy(e_int_tab, e_ext_tab, e_tot_tab):
+    iter_range = list(range(1, len(e_tot_tab) + 1))
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=iter_range, y=e_int_tab,
+        mode="lines", name="Énergie interne",
+        line=dict(color="#00e5ff", width=1.5)
+    ))
+    fig.add_trace(go.Scatter(
+        x=iter_range, y=e_ext_tab,
+        mode="lines", name="Énergie externe",
+        line=dict(color="#ff4081", width=1.5)
+    ))
+    fig.add_trace(go.Scatter(
+        x=iter_range, y=e_tot_tab,
+        mode="lines", name="Énergie totale",
+        line=dict(color="#ffffff", width=2)
+    ))
+
+    fig.update_layout(
+        title="Évolution de l'énergie du snake",
+        xaxis=dict(title="Itération", color="white", gridcolor="#333"),
+        yaxis=dict(title="Énergie", color="white", gridcolor="#333"),
+        paper_bgcolor="#111",
+        plot_bgcolor="#111",
+        font=dict(color="white"),
+        legend=dict(bgcolor="#222", bordercolor="#555", borderwidth=1),
+        hovermode="x unified",
+    )
+
+    fig.show()
